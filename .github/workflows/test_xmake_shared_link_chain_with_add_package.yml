@@ -49,7 +49,7 @@ jobs:
         # continue-on-error: true
         run: |
           xmake q -y
-          xmake -rv
+          xmake -vD
           xmake install -o ${{ github.workspace }}/.install
           xmake run main
 
