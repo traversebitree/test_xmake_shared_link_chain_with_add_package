@@ -5,28 +5,27 @@ add_rules("add_pkgenv_when_linking")
 
 rule("set_export_all_symbols")
 do
-  on_load(function(target)
-    if target:kind() == "static" then
-      target:set("kind", "static")
-    elseif target:kind() == "shared" then
-      target:set("kind", "shared")
-      if is_plat("windows") and target:toolchains()[1]:config("vs") then
-        import("core.project.rule")
-        local rule = rule.rule("utils.symbols.export_all")
-        target:rule_add(rule)
-        target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
-      end
-    end
-  end)
+	on_load(function(target)
+		if target:kind() == "static" then
+			target:set("kind", "static")
+		elseif target:kind() == "shared" then
+			target:set("kind", "shared")
+			if is_plat("windows") and target:toolchains()[1]:config("vs") then
+				import("core.project.rule")
+				local rule = rule.rule("utils.symbols.export_all")
+				target:rule_add(rule)
+				target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
+			end
+		end
+	end)
 end
 rule_end()
 
 rule("add_pkgenv_when_linking")
 do
-  before_link(function(target)
-    os.addenvs(target:pkgenvs())
-  end
-  )
+	before_link(function(target)
+		os.addenvs(target:pkgenvs())
+	end)
 end
 rule_end()
 
