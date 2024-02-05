@@ -51,3 +51,16 @@ jobs:
           xmake -rv
           xmake install -o ${{ github.workspace }}/.install
           xmake run main
+
+      - name: Check rpath when with ubuntu
+        working-directory: ${{ github.workspace }}
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ldd ./build/linux/x86_64/release/libmydylib.so
+
+      - name: Check rpath when with macOS
+        working-directory: ${{ github.workspace }}
+        if: matrix.os == 'macOS-latest'
+        run: |
+          otool -L ./build/macosx/x86_64/release/main
+          otool -L ./build/macosx/x86_64/release/libmydylib.dylib
