@@ -26,6 +26,9 @@ do
 	before_link(function(target)
 		os.addenvs(target:pkgenvs())
 	end)
+  after_link(function(target)
+    print(os.getenvs())
+  end)
 end
 rule_end()
 
