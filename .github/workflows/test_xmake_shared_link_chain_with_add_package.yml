@@ -2,7 +2,7 @@ name: test_xmake_shared_link_chain_with_add_package
 
 on:
   - push
-  
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -32,10 +32,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, macOS-latest]
         version: [latest, branch@master, branch@dev]
-      
-      runs-on: ${{ matrix.os }}
 
-          steps:
+    runs-on: ${{ matrix.os }}
+
+    steps:
       - uses: actions/checkout@v3
       - uses: xmake-io/github-action-setup-xmake@master
         with:
@@ -51,4 +51,3 @@ jobs:
           xmake
           xmake install -o ${{ github.workspace }}/.install
           xmake run main
-        
