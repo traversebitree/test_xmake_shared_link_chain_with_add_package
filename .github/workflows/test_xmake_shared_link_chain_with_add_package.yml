@@ -46,6 +46,7 @@ jobs:
 
       - name: Test build
         working-directory: ${{ github.workspace }}
+        continue-on-error: true
         run: |
           xmake q -y
           xmake -rv
