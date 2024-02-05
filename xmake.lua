@@ -22,6 +22,6 @@ do
 	add_files("dylibsrc/dylibsrc.cpp")
 	add_includedirs("dylibsrc/", { public = true })
 	add_headerfiles("dylibsrc/dylibsrc.hpp", { install = true })
-	add_packages("fmt", {public = true})
+	add_packages("fmt", { public = true })
 end
 target_end()
