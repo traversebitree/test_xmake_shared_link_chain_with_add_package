@@ -6,17 +6,21 @@ add_rules("set_rpath_origin")
 
 rule("set_rpath_origin")
 do
-	on_build(function(target)
-		if not (target:is_plat("windows", "mingw")) and (target:kind() == "shared" or target:kind() == "binary") then
-			target:add_rpathdirs("$ORIGIN")
-		end
+	on_config(function(target)
+    if target:kind() == "shared" or target:kind() == "binary" then
+		  if  target:is_plat("linux") then
+			  target:add_rpathdirs("$ORIGIN")
+		  elseif target:is_plat("macosx") then
+        target:add_rpathdirs("@loader_path")
+      end
+    end
 	end)
 end
 rule_end()
 
 rule("set_export_all_symbols")
 do
-	on_load(function(target)
+	on_config(function(target)
 		if target:kind() == "static" then
 			target:set("kind", "static")
 		elseif target:kind() == "shared" then
