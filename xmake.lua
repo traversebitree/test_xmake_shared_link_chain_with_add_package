@@ -11,12 +11,8 @@ do
 			if target:is_plat("linux") then
 				target:add("rpathdirs", "$ORIGIN")
 				target:add("rpathdirs", "$ORIGIN/../lib")
-				target:add_rpathdirs("$ORIGIN")
-				target:add("rpathdirs", "$ORIGIN/../lib")
 			elseif target:is_plat("macosx") then
 				target:add("rpathdirs", "@loader_path")
-				target:add("rpathdirs", "@loader_path/../lib")
-				target:add_rpathdirs("@loader_path")
 				target:add("rpathdirs", "@loader_path/../lib")
 			end
 		end
