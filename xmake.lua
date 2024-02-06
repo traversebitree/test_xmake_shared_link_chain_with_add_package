@@ -27,12 +27,12 @@ rule_end()
 rule("set_export_all_symbols")
 do
 	on_load(function(target)
-			if target:kind() == "shared" and is_plat("windows") and target:toolchains()[1]:config("vs") then
-				import("core.project.rule")
-				local rule = rule.rule("utils.symbols.export_all")
-				target:rule_add(rule)
-				target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
-			end
+		if target:kind() == "shared" and is_plat("windows") and target:toolchains()[1]:config("vs") then
+			import("core.project.rule")
+			local rule = rule.rule("utils.symbols.export_all")
+			target:rule_add(rule)
+			target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
+		end
 	end)
 end
 rule_end()
