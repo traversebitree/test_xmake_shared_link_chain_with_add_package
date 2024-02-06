@@ -2,10 +2,23 @@ add_rules("mode.debug", "mode.release")
 set_languages("cxx20")
 add_rules("set_export_all_symbols")
 add_rules("copy_dll_when_build")
+add_rules("set_rpath_origin")
+
+
+rule("set_rpath_origin")
+do
+  on_build(function(target)
+    if not (target:is_plat("windows", "mingw")) and (target:kind() == "shared" or target:kind() == "binary") then
+      target:add_rpathdirs("$ORIGIN")
+    end
+  end
+  )
+end
+rule_end()
 
 rule("set_export_all_symbols")
 do
-	on_load(function(target)
+	on_load(function(target)    
 		if target:kind() == "static" then
 			target:set("kind", "static")
 		elseif target:kind() == "shared" then
@@ -15,7 +28,7 @@ do
 				local rule = rule.rule("utils.symbols.export_all")
 				target:rule_add(rule)
 				target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
-			end
+			end      
 		end
 	end)
 end
@@ -78,6 +91,6 @@ do
 	add_files("dylibsrc/dylibsrc.cpp")
 	add_includedirs("dylibsrc/", { public = true })
 	add_headerfiles("dylibsrc/dylibsrc.hpp", { install = true })
-	add_packages("fmt", { public = false })
+	add_packages("fmt", { public = false })  
 end
 target_end()
