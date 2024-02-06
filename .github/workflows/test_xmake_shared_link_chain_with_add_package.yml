@@ -52,6 +52,7 @@ jobs:
           xmake -vD
           xmake install -o ${{ github.workspace }}/.install
           xmake run main
+          ./${{ github.workspace }}/.install/main
 
       - name: Check rpath when with ubuntu
         working-directory: ${{ github.workspace }}
