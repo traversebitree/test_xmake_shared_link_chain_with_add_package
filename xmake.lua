@@ -9,11 +9,11 @@ do
 	on_load(function(target)
 		if target:kind() == "shared" or target:kind() == "binary" then
 			if target:is_plat("linux") then
-				target:add_rpathdirs("$ORIGIN")
-        target:add("rpathdirs", "$ORIGIN/../lib")
+				target:add("rpathdirs", "$ORIGIN")
+				target:add("rpathdirs", "$ORIGIN/../lib")
 			elseif target:is_plat("macosx") then
-				target:add_rpathdirs("@loader_path")
-        target:add("rpathdirs", "@loader_path/../lib")
+				target:add("rpathdirs", "@loader_path")
+				target:add("rpathdirs", "@loader_path/../lib")
 			end
 		end
 	end)
@@ -23,17 +23,12 @@ rule_end()
 rule("set_export_all_symbols")
 do
 	on_load(function(target)
-		if target:kind() == "static" then
-			target:set("kind", "static")
-		elseif target:kind() == "shared" then
-			target:set("kind", "shared")
-			if is_plat("windows") and target:toolchains()[1]:config("vs") then
+			if target:kind() == "shared" and is_plat("windows") and target:toolchains()[1]:config("vs") then
 				import("core.project.rule")
 				local rule = rule.rule("utils.symbols.export_all")
 				target:rule_add(rule)
 				target:extraconf_set("rules", "utils.symbols.export_all", { export_classes = true })
 			end
-		end
 	end)
 end
 rule_end()
