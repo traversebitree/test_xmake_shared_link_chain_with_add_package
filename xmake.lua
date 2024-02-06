@@ -20,7 +20,7 @@ rule_end()
 
 rule("set_export_all_symbols")
 do
-	on_config(function(target)
+	on_load(function(target)
 		if target:kind() == "static" then
 			target:set("kind", "static")
 		elseif target:kind() == "shared" then
