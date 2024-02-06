@@ -7,13 +7,13 @@ add_rules("set_rpath_origin")
 rule("set_rpath_origin")
 do
 	on_config(function(target)
-    if target:kind() == "shared" or target:kind() == "binary" then
-		  if  target:is_plat("linux") then
-			  target:add_rpathdirs("$ORIGIN")
-		  elseif target:is_plat("macosx") then
-        target:add_rpathdirs("@loader_path")
-      end
-    end
+		if target:kind() == "shared" or target:kind() == "binary" then
+			if target:is_plat("linux") then
+				target:add_rpathdirs("$ORIGIN")
+			elseif target:is_plat("macosx") then
+				target:add_rpathdirs("@loader_path")
+			end
+		end
 	end)
 end
 rule_end()
