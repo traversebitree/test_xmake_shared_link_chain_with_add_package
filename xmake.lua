@@ -10,10 +10,10 @@ do
 		if target:kind() == "shared" or target:kind() == "binary" then
 			if target:is_plat("linux") then
 				target:add_rpathdirs("$ORIGIN")
-        target:add("rpathdirs", "$ORIGIN/../lib")
+				target:add("rpathdirs", "$ORIGIN/../lib")
 			elseif target:is_plat("macosx") then
 				target:add_rpathdirs("@loader_path")
-        target:add("rpathdirs", "@loader_path/../lib")
+				target:add("rpathdirs", "@loader_path/../lib")
 			end
 		end
 	end)
