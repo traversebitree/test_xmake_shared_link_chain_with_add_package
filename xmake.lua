@@ -24,14 +24,14 @@ rule_end()
 rule("set_rpath_on_linking_pkgs")
 do
 	on_load(function(target)
-			if target:is_plat("linux") then
-				for _, pkg in ipairs(target:orderpkgs()) do
-					for _, linkdir in ipairs(pkg:get("linkdirs")) do
-						target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
-					end
+		if target:is_plat("linux") then
+			for _, pkg in ipairs(target:orderpkgs()) do
+				for _, linkdir in ipairs(pkg:get("linkdirs")) do
+					target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
 				end
 			end
-		end)
+		end
+	end)
 end
 rule_end()
 
