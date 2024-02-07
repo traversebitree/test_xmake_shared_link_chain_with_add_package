@@ -3,6 +3,7 @@ set_languages("cxx20")
 add_rules("set_export_all_symbols")
 -- add_rules("copy_dll_when_build")
 add_rules("set_rpath_origin")
+add_rules("set_rpath_on_linking_pkgs")
 
 rule("set_rpath_origin")
 do
@@ -17,6 +18,20 @@ do
 			end
 		end
 	end)
+end
+rule_end()
+
+rule("set_rpath_on_linking_pkgs")
+do
+	on_load(function(target)
+			if target:is_plat("linux") then
+				for _, pkg in ipairs(target:orderpkgs()) do
+					for _, linkdir in ipairs(pkg:get("linkdirs")) do
+						target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
+					end
+				end
+			end
+		end)
 end
 rule_end()
 
@@ -92,14 +107,5 @@ do
 	add_includedirs("dylibsrc/", { public = true })
 	add_headerfiles("dylibsrc/dylibsrc.hpp", { install = true })
 	add_packages("fmt", { public = false })
-	on_load(function(target)
-		if target:is_plat("linux") then
-			for _, pkg in ipairs(target:orderpkgs()) do
-				for _, linkdir in ipairs(pkg:get("linkdirs")) do
-					target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
-				end
-			end
-		end
-	end)
 end
 target_end()
