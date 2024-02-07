@@ -58,10 +58,16 @@ jobs:
         working-directory: ${{ github.workspace }}
         if: (success() || failure()) && (matrix.os == 'ubuntu-latest')
         run: |
+          echo "ls ./build/linux/x86_64/release/"
+          ls ./build/linux/x86_64/release/
           echo "ldd ./build/linux/x86_64/release/libmydylib.so"
           ldd ./build/linux/x86_64/release/libmydylib.so  
           echo "ldd ./build/linux/x86_64/release/main"
-          ldd ./build/linux/x86_64/release/main        
+          ldd ./build/linux/x86_64/release/main
+          echo "ls ./.install/bin/"
+          ls ./.install/bin/
+          echo "ls ./.install/lib/"
+          ls ./.install/lib/
           echo "ldd ./.install/bin/main"
           ldd ./.install/bin/main
           echo "ldd ./.install/lib/libmydylib.so"
@@ -71,10 +77,16 @@ jobs:
         working-directory: ${{ github.workspace }}
         if: (success() || failure()) && (matrix.os == 'macOS-latest')
         run: |
+          echo "ls ./build/macosx/x86_64/release/"
+          ls ./build/macosx/x86_64/release/
           echo "otool -L ./build/macosx/x86_64/release/main"
           otool -L ./build/macosx/x86_64/release/main
           echo "otool -L ./build/macosx/x86_64/release/libmydylib.dylib"
           otool -L ./build/macosx/x86_64/release/libmydylib.dylib
+          echo "ls ./.install/bin/"
+          ls ./.install/bin/
+          echo "ls ./.install/lib/"
+          ls ./.install/lib/
           echo "otool -L ./.install/bin/main"
           otool -L ./.install/bin/main
           echo "otool -L ./.install/lib/libmydylib.dylib"
