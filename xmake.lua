@@ -39,7 +39,6 @@ rule("set_export_all_symbols")
 do
 	on_load(function(target)
 		if target:kind() == "shared" and is_plat("windows") then
-			print("123")
 			import("core.project.rule")
 			local rule = rule.rule("utils.symbols.export_all")
 			target:rule_add(rule)
