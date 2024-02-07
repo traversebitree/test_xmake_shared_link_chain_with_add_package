@@ -92,12 +92,12 @@ do
 	add_includedirs("dylibsrc/", { public = true })
 	add_headerfiles("dylibsrc/dylibsrc.hpp", { install = true })
 	add_packages("fmt", { public = false })
-	on_load(function(target)
-		for _, pkg in ipairs(target:orderpkgs()) do
-			for _, linkdir in ipairs(pkg:get("linkdirs")) do
-				target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
-			end
-		end
-	end)
+	-- on_load(function(target)
+	-- 	for _, pkg in ipairs(target:orderpkgs()) do
+	-- 		for _, linkdir in ipairs(pkg:get("linkdirs")) do
+	-- 			target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, { public = true, force = true })
+	-- 		end
+	-- 	end
+	-- end)
 end
 target_end()
