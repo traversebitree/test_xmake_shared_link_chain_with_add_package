@@ -1,7 +1,7 @@
 add_rules("mode.debug", "mode.release")
 set_languages("cxx20")
 add_rules("set_export_all_symbols")
-add_rules("copy_dll_when_build")
+-- add_rules("copy_dll_when_build")
 add_rules("set_rpath_origin")
 
 rule("set_rpath_origin")
@@ -23,7 +23,8 @@ rule_end()
 rule("set_export_all_symbols")
 do
 	on_load(function(target)
-		if target:kind() == "shared" and is_plat("windows") and target:toolchains()[1]:config("vs") then
+		if target:kind() == "shared" and is_plat("windows") then
+      print("123")
 			import("core.project.rule")
 			local rule = rule.rule("utils.symbols.export_all")
 			target:rule_add(rule)
@@ -91,5 +92,12 @@ do
 	add_includedirs("dylibsrc/", { public = true })
 	add_headerfiles("dylibsrc/dylibsrc.hpp", { install = true })
 	add_packages("fmt", { public = false })
+	on_load(function (target)
+        for _, pkg in ipairs(target:orderpkgs()) do
+            for _, linkdir in ipairs(pkg:get("linkdirs")) do
+                target:add("ldflags", "-Wl,-rpath-link=" .. linkdir, {public = true, force = true})
+            end
+        end
+    end)
 end
 target_end()
